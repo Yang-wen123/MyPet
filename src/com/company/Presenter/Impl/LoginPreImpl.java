@@ -1,14 +1,10 @@
 package com.company.Presenter.Impl;
 
-import com.company.Bean.PlayerBean;
 import com.company.Model.Impl.LoginModImpl;
 import com.company.Model.Inter.LoginModInter;
 import com.company.Presenter.Inter.LoginPreInter;
 import com.company.Presenter.Inter.LoginPresentIter;
-import com.company.Utils.LoginUtil;
-import com.company.Utils.PetWorld;
-
-import java.util.ArrayList;
+import com.company.Utils.*;
 
 public class LoginPreImpl implements LoginPreInter, LoginPresentIter {
     private LoginModInter loginModInter;
@@ -18,7 +14,14 @@ public class LoginPreImpl implements LoginPreInter, LoginPresentIter {
     @Override
     public void onSuccess(String success) {
         System.out.println(success);
-        PetWorld.petWorld();
+        DBUtil.openConn();
+        PetUtil.query(ConstantUtil.now_username);
+        if(PetUtil.user==ConstantUtil.now_username){
+            PetWorldUtil.player_wprld();
+        }else{
+            PetWorldUtil.petWorld();
+        }
+        DBUtil.closeConn();
     }
 
     @Override

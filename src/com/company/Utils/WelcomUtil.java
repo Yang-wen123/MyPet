@@ -39,7 +39,7 @@ public class WelcomUtil {
                 ConstantUtil.is_break=true;
                 break;
             default:
-                System.out.print("请输入正确的指令:");
+                System.out.println("请输入正确的指令:");
                 welcom();
                 break;
         }

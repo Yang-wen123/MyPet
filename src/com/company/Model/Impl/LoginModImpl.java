@@ -4,6 +4,7 @@ import com.company.Bean.PlayerBean;
 import com.company.Model.Inter.LoginModInter;
 import com.company.Presenter.Inter.LoginPreInter;
 import com.company.Presenter.Inter.LoginPresentIter;
+import com.company.Utils.ConstantUtil;
 import com.company.Utils.DBUtil;
 import com.company.Utils.LoginUtil;
 import com.company.Utils.WelcomUtil;
@@ -29,6 +30,7 @@ public class LoginModImpl implements LoginModInter {
                 String pass = DBUtil.rs.getString("password");
                 if(username==user){
                     if(password.equals(pass)){
+                        ConstantUtil.now_username=username;
                         loginPreInter.onSuccess("登录成功");
                         break;
                     }else{
@@ -37,6 +39,7 @@ public class LoginModImpl implements LoginModInter {
                             Scanner s=new Scanner(System.in);
                             String new_pass=s.next();
                             if(new_pass.equals(pass)){
+                                ConstantUtil.now_username=username;
                                 loginPreInter.onSuccess("登录成功");
                                 break;
                             }
