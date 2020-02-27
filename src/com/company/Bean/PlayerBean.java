@@ -1,5 +1,9 @@
 package com.company.Bean;
-
+/***
+ * @author wen
+ * @created 2020/2/27
+ * @explain 用户构造类
+ */
 public class PlayerBean {
     int username;
     String password;

@@ -1,5 +1,9 @@
 package com.company.Utils;
-
+/***
+ * @author wen
+ * @created 2020/2/27
+ * @explain 常用常量
+ */
 public class ConstantUtil {
 
     public static boolean is_break=false;

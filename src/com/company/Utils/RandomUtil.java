@@ -2,6 +2,11 @@ package com.company.Utils;
 
 import java.util.Random;
 
+/***
+ * @author wen
+ * @created 2020/2/27
+ * @explain 随机数生成，实现概率事件
+ */
 public class RandomUtil {
     static Random rand = new Random();
     public static void getCoin(){

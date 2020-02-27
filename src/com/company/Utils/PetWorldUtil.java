@@ -3,6 +3,10 @@ package com.company.Utils;
 import java.util.Random;
 import java.util.Scanner;
 
+/***
+ * @author wen
+ * @created 2020/2/27
+ */
 public class PetWorldUtil {
     public static void petWorld(){
         System.out.println("***************************************************************");

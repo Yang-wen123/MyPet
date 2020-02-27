@@ -1,5 +1,9 @@
 package com.company.Utils;
-
+/***
+ * @author wen
+ * @created 2020/2/27
+ * @explain npc工具
+ */
 public class EnemyUtil {
     public static void enemy_query(int npc_id){
         try{

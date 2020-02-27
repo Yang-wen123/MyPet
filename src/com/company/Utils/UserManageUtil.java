@@ -1,8 +1,11 @@
 package com.company.Utils;
 
 import java.util.Scanner;
+
 /***
- * 宠物管理系统用户信息管理
+ * @author wen
+ * @created 2020/2/27
+ * @explain 宠物管理系统用户信息管理
  */
 public class UserManageUtil {
 

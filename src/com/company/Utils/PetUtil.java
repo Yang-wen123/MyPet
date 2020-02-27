@@ -3,7 +3,11 @@ package com.company.Utils;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+/***
+ * @author wen
+ * @created 2020/2/27
+ * @explain 宠物的功能实现
+ */
 public class PetUtil {
     public static int user;
     public static int hp=0;

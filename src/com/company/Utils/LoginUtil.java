@@ -4,7 +4,11 @@ import com.company.Bean.PlayerBean;
 import com.company.Presenter.Impl.LoginPreImpl;
 
 import java.util.Scanner;
-
+/***
+ * @author wen
+ * @created 2020/2/27
+ * @explain 登录工具
+ */
 public class LoginUtil {
     public static PlayerBean playerBean=new PlayerBean();
     public static void login_view(){

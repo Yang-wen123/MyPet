@@ -3,8 +3,11 @@ package com.company.Utils;
 import com.company.Presenter.Impl.LoginPreImpl;
 
 import java.util.Scanner;
+
 /***
- * 宠物管理系统主界面
+ * @author wen
+ * @created 2020/2/27
+ * @explain 宠物管理系统主界面
  */
 public class WelcomUtil {
     /***

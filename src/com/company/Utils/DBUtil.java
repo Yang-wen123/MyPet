@@ -4,7 +4,11 @@ import com.company.Bean.PlayerBean;
 
 import java.sql.*;
 import java.util.Scanner;
-
+/***
+ * @author wen
+ * @created 2020/2/27
+ * @explain 用户注册、登录等管理工具
+ */
 public class DBUtil {
     // MySQL 8.0 以下版本 - JDBC 驱动名及数据库 URL
     //static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
