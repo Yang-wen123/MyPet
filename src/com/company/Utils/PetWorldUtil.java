@@ -33,7 +33,7 @@ public class PetWorldUtil {
         System.out.println("***                                                                           ***");
         System.out.println("***                             欢迎来到宠物世界                                ***");
         System.out.println("***                      当前城镇->"+ConstantUtil.town+"胜率"+(100-10*PetUtil.town_id)+"%                         ***");
-        System.out.println("* 1.冒险  2.战斗  3.背包  4.宠物  5.恢复中心  6.角色信息  7.切换城镇  8.商店  0.退出 *");
+        System.out.println("* 1.冒险  2.战斗  3.遭遇  4.宠物  5.恢复中心  6.角色信息  7.切换城镇  8.商店  0.退出 *");
         System.out.println("***                                                                           ***");
         System.out.println("*********************************************************************************");
         System.out.print("请选择:");
@@ -48,11 +48,11 @@ public class PetWorldUtil {
                 player_wprld();
                 break;
             case 2:
-                fight_pet(ConstantUtil.town_id);
+                fight_pet(PetUtil.town_id);
                 player_wprld();
                 break;
             case 3:
-                bag();
+                enemy();
                 player_wprld();
                 break;
             case 4:
@@ -119,6 +119,16 @@ public class PetWorldUtil {
     }
 
     private static void recover_center() {
+        DBUtil.openConn();
+        PetUtil.query_my_pet(ConstantUtil.now_username);
+        System.out.println("请选择受伤的宠物");
+        Scanner scanner=new Scanner(System.in);
+        int choose_pet=scanner.nextInt();
+        PetUtil.recover_pet(ConstantUtil.now_username,choose_pet);
+        ConstantUtil.coin=-800;
+        PetUtil.add_coin(ConstantUtil.now_username,ConstantUtil.coin);
+        System.out.println("伤势治愈，损失金币:"+ConstantUtil.coin);
+        DBUtil.closeConn();
     }
 
     private static void pet_bag() {
@@ -126,44 +136,88 @@ public class PetWorldUtil {
         PetUtil.query_my_pet(ConstantUtil.now_username);
         DBUtil.closeConn();
     }
-    private static void bag() {
+    private static void enemy() {
+        System.out.println("对战吧，少年，遇到了训练师\n敌方信息-->");
+        RandomUtil.get_npc_id();
+        DBUtil.openConn();
+        EnemyUtil.enemy_query(ConstantUtil.npc_id);
+        fight_pet();
+        DBUtil.closeConn();
     }
     //战斗
     private static void fight_pet(int town_id) {
         RandomUtil.is_success();
+        DBUtil.openConn();
+        PetUtil.query_my_pet(ConstantUtil.now_username);
+        System.out.println("请选择战斗宠物");
+        Scanner scanner=new Scanner(System.in);
+        int choose_pet=scanner.nextInt();
         if(ConstantUtil.success>town_id){
             RandomUtil.getCoin();
-            DBUtil.openConn();
             PetUtil.add_coin(ConstantUtil.now_username,ConstantUtil.coin);
-            DBUtil.closeConn();
+            System.out.println("战斗胜利！恭喜获得金币:"+ConstantUtil.coin);
         }else {
             System.out.println("战斗失败");
+            PetUtil.update_hp(ConstantUtil.now_username,choose_pet);
         }
+        DBUtil.closeConn();
+    }
+    private static void choose_pet(){
+        PetUtil.add_pet(ConstantUtil.now_username,ConstantUtil.pet_id);
+        System.out.println("请选择战斗宠物");
+        Scanner scanner=new Scanner(System.in);
+        int choose_pet=scanner.nextInt();
+        PetUtil.update_hp(ConstantUtil.now_username,choose_pet);
+        System.out.println("宠物id:"+ConstantUtil.pet_id);
+        System.out.println("捕获成功 ");
+    }
+    private static void fight_pet(){
+        PetUtil.query_my_pet(ConstantUtil.now_username);
+        System.out.println("请选择战斗宠物");
+        Scanner scanner=new Scanner(System.in);
+        int choose_pet=scanner.nextInt();
+        PetUtil.update_hp(ConstantUtil.now_username,choose_pet);
+        System.out.println("战斗胜利，hp下降 ");
     }
     //冒险
     private static void explore_pet() {
+        DBUtil.openConn();
         RandomUtil.makeOneRandom();
+        System.out.println(ConstantUtil.explore_id);
         //50%几率出500金币
         if (ConstantUtil.explore_id>500){
             PetUtil.add_coin(ConstantUtil.now_username,500);
+            System.out.println("恭喜获得金币:"+500);
         }else if(ConstantUtil.explore_id>200){
             //30%出抓捕野生宠物
             RandomUtil.makePetRandom();
-
+            System.out.println("恭喜遇到野生宠物");
+            choose_pet();
         }else if(ConstantUtil.explore_id>100){
-            //10%出恢复hp、mp道具
-
+            //10%遇敌
+            System.out.println("对战吧，少年，遇到了训练师\n敌方信息-->");
+            RandomUtil.get_npc_id();
+            EnemyUtil.enemy_query(ConstantUtil.npc_id);
+            fight_pet();
         }else if(ConstantUtil.explore_id>50){
-            //5%出hp、mp、attack、def属性提升道具
-
+            //5%不出道具
+            System.out.println("很遗憾，没有收获");
         }else if(ConstantUtil.explore_id>30){
             //2%出普通神兽
-
+            RandomUtil.makeGodRandom();
+            System.out.println("恭喜遇到野生神兽");
+            choose_pet();
         }else if(ConstantUtil.explore_id>10){
             //1%出高级神兽
-
+            System.out.println("恭喜遇到野生高级神兽");
+            RandomUtil.makeHighGodRandom();
+            choose_pet();
         }else{
             //小于1%出稀有神兽
+            RandomUtil.makeRareRandom();
+            System.out.println("恭喜遇到野生稀有神兽");
+            choose_pet();
         }
+        DBUtil.closeConn();
     }
 }

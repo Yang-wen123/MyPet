@@ -5,46 +5,50 @@ import java.util.Random;
 public class RandomUtil {
     static Random rand = new Random();
     public static void getCoin(){
-        ConstantUtil.coin=rand.nextInt(2000) + 100;
+        ConstantUtil.coin=rand.nextInt(1901) + 100;
     }
     public static void getExp(){
-        ConstantUtil.exp=rand.nextInt(20) + 11;
+        ConstantUtil.exp=rand.nextInt(12) + 11;
     }
     public static void meetPet(){
         ConstantUtil.pet_id=rand.nextInt(200) + 1;
     }
     public static void init_Hp(){
-        ConstantUtil.hp=rand.nextInt(20) + 15;
+        ConstantUtil.hp=rand.nextInt(6) + 15;
     }
     public static void init_Mp(){
-        ConstantUtil.mp=rand.nextInt(20) + 15;
+        ConstantUtil.mp=rand.nextInt(6) + 15;
     }
     public static void init_Attk(){
-        ConstantUtil.attk=rand.nextInt(12) + 8;
+        ConstantUtil.attk=rand.nextInt(5) + 8;
     }
     public static void init_Def(){
-        ConstantUtil.def=rand.nextInt(12) + 8;
+        ConstantUtil.def=rand.nextInt(5) + 8;
     }
     public static void is_success(){
         ConstantUtil.success=rand.nextInt(10);
     }
     public static void makeOneRandom(){
-        ConstantUtil.explore_id=rand.nextInt(10000) + 1;
+        ConstantUtil.explore_id=rand.nextInt(1000) + 1;
     }
     //宠物
     public static void makePetRandom(){
-        ConstantUtil.pet_id=rand.nextInt(100) + 1;
+        ConstantUtil.pet_id=rand.nextInt(3) + 1;
     }
     //神兽
     public static void makeGodRandom(){
-        ConstantUtil.pet_id=rand.nextInt(120) + 101;
+        ConstantUtil.pet_id=rand.nextInt(4) + 3;
     }
     //高级神兽
     public static void makeHighGodRandom(){
-        ConstantUtil.pet_id=rand.nextInt(130) + 121;
+        ConstantUtil.pet_id=rand.nextInt(4) + 6;
     }
     //稀有神兽
     public static void makeRareRandom(){
-        ConstantUtil.pet_id=rand.nextInt(135) + 131;
+        ConstantUtil.pet_id=rand.nextInt(4) + 9;
+    }
+    //获取敌方信息
+    public static void get_npc_id(){
+        ConstantUtil.npc_id=rand.nextInt(20) + 1;
     }
 }
