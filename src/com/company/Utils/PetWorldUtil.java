@@ -144,8 +144,7 @@ public class PetWorldUtil {
         System.out.println("对战吧，少年，遇到了训练师\n敌方信息-->");
         RandomUtil.get_npc_id();
         DBUtil.openConn();
-        EnemyUtil.enemy_query(ConstantUtil.npc_id);
-        fight_pet();
+        FightUtil.fight();
         DBUtil.closeConn();
     }
     //战斗
@@ -162,7 +161,7 @@ public class PetWorldUtil {
             System.out.println("战斗胜利！恭喜获得金币:"+ConstantUtil.coin);
         }else {
             System.out.println("战斗失败");
-            PetUtil.update_hp(ConstantUtil.now_username,choose_pet);
+            PetUtil.update_hp(ConstantUtil.now_username,choose_pet,0,0);
         }
         DBUtil.closeConn();
     }
@@ -171,7 +170,6 @@ public class PetWorldUtil {
         System.out.println("请选择战斗宠物");
         Scanner scanner=new Scanner(System.in);
         int choose_pet=scanner.nextInt();
-        PetUtil.update_hp(ConstantUtil.now_username,choose_pet);
         System.out.println("宠物id:"+ConstantUtil.pet_id);
         System.out.println("捕获成功 ");
     }
@@ -180,8 +178,7 @@ public class PetWorldUtil {
         System.out.println("请选择战斗宠物");
         Scanner scanner=new Scanner(System.in);
         int choose_pet=scanner.nextInt();
-        PetUtil.update_hp(ConstantUtil.now_username,choose_pet);
-        System.out.println("战斗胜利，hp下降 ");
+        System.out.print("战斗胜利 ");
     }
     //冒险
     private static void explore_pet() {
@@ -204,7 +201,7 @@ public class PetWorldUtil {
             EnemyUtil.enemy_query(ConstantUtil.npc_id);
             fight_pet();
         }else if(ConstantUtil.explore_id>50){
-            //5%不出道具
+            //5%不出
             System.out.println("很遗憾，没有收获");
         }else if(ConstantUtil.explore_id>30){
             //2%出普通神兽

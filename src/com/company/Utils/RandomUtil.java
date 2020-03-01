@@ -56,4 +56,8 @@ public class RandomUtil {
     public static void get_npc_id(){
         ConstantUtil.npc_id=rand.nextInt(20) + 1;
     }
+    //宠物升级属性提升值
+    public static void get_lv_up(){
+        ConstantUtil.lv_up=rand.nextInt(3) + 2;
+    }
 }

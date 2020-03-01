@@ -2,6 +2,7 @@ package com.company.Utils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 /***
  * @author wen
@@ -16,9 +17,11 @@ public class PetUtil {
     public static int lv=0;
     public static int def=0;
     public static int exp=0;
-    public static String pet_name=null;
+    public static String pet_name=null,my_pet_name=null;
     public static int town_id;
     public static int my_pet_id=0;
+    public static int pet_lv = 0,pet_exp= 0,pet_hp= 0,pet_mp= 0,pet_attk= 0,pet_def= 0;
+    public static int my_pet_lv = 0,my_pet_exp= 0,my_pet_hp= 0,my_pet_mp= 0,my_pet_attk= 0,my_pet_def= 0;
     //创建玩家
     public static void add_user(int username,int sex,int coin,int pet_number,int town_id){
         try{
@@ -215,24 +218,41 @@ public class PetUtil {
             e.printStackTrace();
         }
     }
-
-    //减少宠物血量
-    public static void update_hp(int username,int my_pet_id) {
-        try {
-            String sql_hp;
+    //查看战斗宠物
+    public static void query_my_pet(int username,int my_pet_id){
+        try{
+            System.out.println("宠物背包-->>");
             String sql_petname;
-            int pet_hp=0;
-            sql_petname = "SELECT * FROM mypet where my_pet_id = "+my_pet_id+" and username = "+username+"";
+            sql_petname = "SELECT * FROM mypet where username = "+username+" and my_pet_id= "+my_pet_id+"";
             DBUtil.stmt = DBUtil.conn.createStatement();
             DBUtil.rs = DBUtil.stmt.executeQuery(sql_petname);
+            System.out.println("宠物名  等级  血量  技能点  攻击力  防御力  经验");
             while (DBUtil.rs.next()){
-                pet_hp=DBUtil.rs.getInt("hp");
+                my_pet_name=DBUtil.rs.getString("name");
+                my_pet_lv=DBUtil.rs.getInt("lv");
+                my_pet_exp=DBUtil.rs.getInt("exp");
+                my_pet_hp=DBUtil.rs.getInt("hp");
+                my_pet_mp=DBUtil.rs.getInt("mp");
+                my_pet_attk=DBUtil.rs.getInt("attk");
+                my_pet_def=DBUtil.rs.getInt("def");
+                System.out.println(my_pet_name+"  "+my_pet_lv+"    "+my_pet_hp+"    "+my_pet_mp+"     "
+                        +my_pet_attk+"      "+my_pet_def+"      "+my_pet_exp);
             }
-            int new_hp = pet_hp-10;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //减少宠物血量
+    public static void update_hp(int username,int my_pet_id,int new_hp,int new_mp) {
+        try {
+            String sql_hp,sql_mp;
             sql_hp = "UPDATE mypet SET hp = '"+new_hp+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
+            sql_mp="UPDATE mypet SET mp = '"+new_mp+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
             DBUtil.stmt = DBUtil.conn.createStatement();
             DBUtil.stmt.executeUpdate(sql_hp);
-            System.out.println("宠物血量减少"+10);
+            DBUtil.stmt.executeUpdate(sql_mp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -240,9 +260,9 @@ public class PetUtil {
 
     public static void recover_pet(int username,int my_pet_id) {
         try {
-            String sql_hp,sql_pet_id;
+            String sql_hp,sql_pet_id,sql_mp;
             String sql_petname;
-            int pet_hp=0,pet_id=0;
+            int pet_hp=0,pet_id=0,pet_mp=0;
             sql_pet_id = "SELECT * FROM mypet where my_pet_id = "+my_pet_id+"";
             DBUtil.stmt = DBUtil.conn.createStatement();
             DBUtil.rs = DBUtil.stmt.executeQuery(sql_pet_id);
@@ -254,12 +274,92 @@ public class PetUtil {
             DBUtil.rs = DBUtil.stmt.executeQuery(sql_petname);
             while (DBUtil.rs.next()){
                 pet_hp=DBUtil.rs.getInt("pet_hp");
+                pet_mp=DBUtil.rs.getInt("pet_mp");
             }
             sql_hp = "UPDATE mypet SET hp = '"+pet_hp+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
+            sql_mp = "UPDATE mypet SET mp = '"+pet_mp+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
             DBUtil.stmt = DBUtil.conn.createStatement();
             DBUtil.stmt.executeUpdate(sql_hp);
-            System.out.println("宠物恢复健康，当前hp："+pet_hp);
+            DBUtil.stmt.executeUpdate(sql_mp);
+            System.out.println("宠物恢复健康，当前hp："+pet_hp+"mp:"+pet_mp);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //升级
+    public static void set_lv(int username,int my_pet_id,int lv){
+        try {
+            String sql;
+            sql = "UPDATE mypet SET lv = '"+lv+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
+            DBUtil.stmt = DBUtil.conn.createStatement();
+            DBUtil.stmt.executeUpdate(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    //经验
+    public static void set_exp(int username,int my_pet_id,int exp){
+        try {
+            String sql;
+            sql = "UPDATE mypet SET exp = '"+exp+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
+            DBUtil.stmt = DBUtil.conn.createStatement();
+            DBUtil.stmt.executeUpdate(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    //hp提升
+    public static void set_hp(int username,int my_pet_id,int hp){
+        try {
+            String sql;
+            sql = "UPDATE mypet SET hp = '"+hp+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
+            DBUtil.stmt = DBUtil.conn.createStatement();
+            DBUtil.stmt.executeUpdate(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    //mp提升
+    public static void set_mp(int username,int my_pet_id,int mp){
+        try {
+            String sql;
+            sql = "UPDATE mypet SET mp = '"+mp+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
+            DBUtil.stmt = DBUtil.conn.createStatement();
+            DBUtil.stmt.executeUpdate(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    //attk提升
+    public static void set_attk(int username,int my_pet_id,int attk){
+        try {
+            String sql;
+            sql = "UPDATE mypet SET attk = '"+attk+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
+            DBUtil.stmt = DBUtil.conn.createStatement();
+            DBUtil.stmt.executeUpdate(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    //def提升
+    public static void set_def(int username,int my_pet_id,int def){
+        try {
+            String sql;
+            sql = "UPDATE mypet SET def = '"+def+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
+            DBUtil.stmt = DBUtil.conn.createStatement();
+            DBUtil.stmt.executeUpdate(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    //进化
+    public static void set_evolve(int username,int my_pet_id,String name){
+        try {
+            String sql;
+            sql = "UPDATE mypet SET name = '"+name+"' where my_pet_id = "+my_pet_id+" and username = "+username+"";
+            DBUtil.stmt = DBUtil.conn.createStatement();
+            DBUtil.stmt.executeUpdate(sql);
+        }catch (SQLException e){
             e.printStackTrace();
         }
     }

@@ -20,4 +20,5 @@ public class ConstantUtil {
     public static int explore_id=1;
     public static String town=null;
     public static int npc_id=1;
+    public static int lv_up=0;
 }
